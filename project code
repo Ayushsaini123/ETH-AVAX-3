@@ -1,0 +1,32 @@
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity 0.8.25;
+
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v4.0.0/contracts/token/ERC20/ERC20.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v4.0.0/contracts/access/Ownable.sol";
+
+contract PIE is ERC20, Ownable {
+    string constant tokenName = "PIE";
+    string constant Symbol = "PIE";
+
+    constructor() ERC20(tokenName, Symbol) {
+        // Initialize the token with a total supply of 1000 tokens
+        _mint(owner(), 1000 * (10 ** decimals()));
+    }
+
+    function decimals() public virtual override view returns(uint8){
+        return 0;
+    }
+
+    function mint(address a , uint money) public onlyOwner {
+        _mint(a, money);
+    }
+
+    function burn(uint money) public {
+        _burn(msg.sender, money);
+    }
+
+    function transfer(address a, uint money) public virtual override returns (bool) {
+        _transfer(msg.sender, a,money);
+        return true;
+    }
+}
